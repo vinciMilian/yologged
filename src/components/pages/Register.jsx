@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import '../style/register.scss'
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../scripts/firebase";
+import { auth, db } from "../scripts/firebase";
+import { setDoc, doc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 function Register() {
     const [fname, setFname] = useState("")
@@ -15,15 +17,41 @@ function Register() {
         try {
             await createUserWithEmailAndPassword(auth, email, password)
             const user = auth.currentUser
-            //LEMBRAR -> CRIAR DATABASE E CONECTAR PARA CRIAR USUARIO
+            
+            if (user) {
+                await setDoc(doc(db, "Users", user.uid), {
+                    _email: user.email,
+                    _firstName: fname,
+                    _lastName: lname
+                })
+            }
+            console.log(user)
+            toast.success("👍 User registered successfuly!", {
+                position: "top-center",
+            })
+
+            window.location.href = "/profile"
         } catch (error) {
             console.log(error.message)
+            toast.error("Error: " + error.message, {
+                position: "bottom-center",
+            })
         }
     }
+
+    const handleLogin = async () => {
+                try {
+                    window.location.href = "/login"
+                } catch (error) {
+                    toast.error("Error: " + error.message)
+                    console.log(error)
+                }
+            }
 
     return (
       <div className="containerReg">
         <div className="formBox">
+            <h2>yuLogged</h2>
             <form onSubmit={handleRegister}>
                 <h3>- REGISTER YOUR ACCOUNT -</h3>
                 <div className="inputs">
@@ -48,7 +76,7 @@ function Register() {
                         onChange={(e) => setEmail(e.target.value)}
                         required
                     />
-                    <label>First Name</label>
+                    <label>Password</label>
                     <input 
                         type="password" 
                         placeholder="password..."
@@ -61,6 +89,9 @@ function Register() {
                     </button>
                 </div>
             </form>
+            <button onClick={handleLogin}>
+                LOGIN
+            </button>
         </div>
       </div>
     );
