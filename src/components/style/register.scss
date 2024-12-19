@@ -1,0 +1,62 @@
+.containerReg {
+    display: flex;
+    justify-content: center;
+
+    .formBox {
+
+        padding: 5rem;
+
+        form {
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+
+            border: 1px solid rgb(200, 255, 251);
+            background-color: rgb(199, 211, 255);
+            border-radius: 30px;
+
+            h3 {
+                padding: 1rem;
+                border-bottom: 1px solid black;
+                font-weight: bold;
+            }
+
+            .inputs {
+                display: flex;
+                flex-direction: column;
+
+                label {
+                    padding: .3rem;
+                    font-weight: bold;
+                }
+
+                input {
+                    border: 0;
+                    padding: .6rem;
+                    border-radius: 50px;
+
+                    &:focus {
+                        box-shadow: 0 0 0 0;
+                        border: 0 none;
+                        outline: 0;
+                    }
+                }
+
+                button {
+                    border: 0;
+                    background-color: rgb(69, 178, 237);
+                    padding: 10px;
+                    border-radius: 15px;
+                    color: white;
+                    font-weight: bold;
+
+                    &:hover {
+                        cursor: pointer;
+                        background-color: rgb(23, 114, 163);
+                    }
+                }
+
+            }
+        }
+    }
+}
